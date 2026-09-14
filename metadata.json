@@ -1,0 +1,6 @@
+{
+  "name": "汉服DIY设计",
+  "description": "汉服定制与裁剪图生成工具，支持马面裙与唐宋大袖衫的裁片分块填色、材质选择、传统纹样贴纸、立裁成衣预览及标准CAD裁剪图打印。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

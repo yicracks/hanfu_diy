@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
+  <defs>
+    <linearGradient id="gold-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#DFC378"/>
+      <stop offset="50%" stopColor="#C29B38"/>
+      <stop offset="100%" stopColor="#8C6721"/>
+    </linearGradient>
+  </defs>
+  <!-- 海水江崖传统江崖立波纹样 -->
+  <!-- 底部平水立波 -->
+  <path d="M0 110 Q50 90 100 110 T200 110 T300 110 T400 110 L400 120 L0 120 Z" fill="url(#gold-grad-1)" opacity="0.9"/>
+  <path d="M0 100 Q50 78 100 100 T200 100 T300 100 T400 100" stroke="url(#gold-grad-1)" stroke-width="3" fill="none"/>
+  <path d="M0 90 Q50 68 100 90 T200 90 T300 90 T400 90" stroke="url(#gold-grad-1)" stroke-width="2.5" fill="none" opacity="0.8"/>
+  <path d="M0 80 Q50 58 100 80 T200 80 T300 80 T400 80" stroke="url(#gold-grad-1)" stroke-width="2" fill="none" opacity="0.65"/>
+  <!-- 中央寿山福海三山石 -->
+  <path d="M175 110 L195 20 C197 10 203 10 205 20 L225 110 Z" fill="url(#gold-grad-1)"/>
+  <path d="M155 110 L175 45 C177 38 183 38 185 45 L198 110 Z" fill="url(#gold-grad-1)" opacity="0.85"/>
+  <path d="M202 110 L215 45 C217 38 223 38 225 45 L245 110 Z" fill="url(#gold-grad-1)" opacity="0.85"/>
+  <!-- 左右副峰 -->
+  <path d="M75 110 L95 40 C97 32 103 32 105 40 L125 110 Z" fill="url(#gold-grad-1)" opacity="0.8"/>
+  <path d="M275 110 L295 40 C297 32 303 32 305 40 L325 110 Z" fill="url(#gold-grad-1)" opacity="0.8"/>
+  <!-- 翻涌浪花点缀 -->
+  <circle cx="100" cy="65" r="4" fill="url(#gold-grad-1)"/>
+  <circle cx="115" cy="55" r="3" fill="url(#gold-grad-1)"/>
+  <circle cx="200" cy="45" r="4" fill="url(#gold-grad-1)"/>
+  <circle cx="300" cy="65" r="4" fill="url(#gold-grad-1)"/>
+  <circle cx="285" cy="55" r="3" fill="url(#gold-grad-1)"/>
+</svg>

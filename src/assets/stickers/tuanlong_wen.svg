@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="gold-grad-8" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#DFC378"/>
+      <stop offset="50%" stopColor="#C29B38"/>
+      <stop offset="100%" stopColor="#8C6721"/>
+    </linearGradient>
+  </defs>
+  <!-- 团龙纹：正圆形盘龙、龙首居中、四爪翻腾、火珠缭绕 -->
+  <g fill="url(#gold-grad-8)" stroke="url(#gold-grad-8)">
+    <!-- 外围圆环 -->
+    <circle cx="50" cy="50" r="46" stroke-width="2.5" stroke-dasharray="8 4" fill="none"/>
+    <!-- 龙首 -->
+    <circle cx="50" cy="40" r="8"/>
+    <!-- 龙角与龙须 -->
+    <path d="M46 34 L38 24 M54 34 L62 24" stroke-width="2" stroke-linecap="round"/>
+    <path d="M44 44 C36 46 32 54 28 50 M56 44 C64 46 68 54 72 50" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- 盘旋龙身 S型绕圆 -->
+    <path d="M50 48 C44 58 32 62 26 52 C20 42 24 30 36 24 C48 18 64 20 72 32 C80 44 78 62 66 72 C54 82 34 80 24 70" fill="none" stroke-width="5" stroke-linecap="round"/>
+    <!-- 龙爪 -->
+    <path d="M28 32 L20 28 M30 36 L18 36 M32 40 L22 46" stroke-width="2" stroke-linecap="round"/>
+    <path d="M68 64 L76 70 M66 68 L74 76 M62 70 L66 80" stroke-width="2" stroke-linecap="round"/>
+    <!-- 火焰宝珠 -->
+    <circle cx="50" cy="62" r="5" fill="#FFF" fill-opacity="0.3"/>
+    <path d="M46 58 C46 52 50 50 50 48 C50 50 54 52 54 58 Z"/>
+  </g>
+</svg>

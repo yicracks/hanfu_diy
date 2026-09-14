@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="none">
+  <defs>
+    <linearGradient id="gold-grad-5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#DFC378"/>
+      <stop offset="50%" stopColor="#C29B38"/>
+      <stop offset="100%" stopColor="#8C6721"/>
+    </linearGradient>
+  </defs>
+  <!-- 如意祥云纹 -->
+  <g fill="url(#gold-grad-5)" stroke="url(#gold-grad-5)">
+    <path d="M22 34 C12 34 8 24 16 16 C24 8 36 10 38 20 C42 12 56 12 60 20 C64 12 78 12 82 22 C92 24 94 36 84 42 C74 48 64 42 58 38 C54 44 42 46 36 40 C30 46 20 44 22 34 Z" fill-opacity="0.85"/>
+    <!-- 云尾如意勾卷 -->
+    <path d="M58 38 C68 44 76 46 86 52 C88 54 84 58 80 56 C70 52 62 48 54 44" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M36 40 C28 46 18 48 10 54 C8 56 12 58 16 56 C24 52 32 48 38 42" fill="none" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="28" cy="24" r="3" fill="#FFF" fill-opacity="0.25"/>
+    <circle cx="50" cy="22" r="3.5" fill="#FFF" fill-opacity="0.25"/>
+    <circle cx="72" cy="25" r="3" fill="#FFF" fill-opacity="0.25"/>
+  </g>
+</svg>

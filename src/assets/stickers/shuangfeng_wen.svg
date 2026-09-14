@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="gold-grad-9" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#DFC378"/>
+      <stop offset="50%" stopColor="#C29B38"/>
+      <stop offset="100%" stopColor="#8C6721"/>
+    </linearGradient>
+  </defs>
+  <!-- 团凤纹 / 翔凤呈祥：凤首回望、华美凤尾羽 -->
+  <g fill="url(#gold-grad-9)" stroke="url(#gold-grad-9)">
+    <circle cx="50" cy="50" r="46" stroke-width="2" stroke-dasharray="6 3" fill="none" opacity="0.7"/>
+    <!-- 凤首与冠羽 -->
+    <circle cx="36" cy="34" r="5"/>
+    <path d="M34 29 C30 20 22 18 16 20 C22 24 28 26 32 30" stroke-width="2" fill="none"/>
+    <path d="M38 30 C38 22 44 16 52 14 C46 20 42 24 40 30" stroke-width="2" fill="none"/>
+    <path d="M32 35 L24 37" stroke-width="2" stroke-linecap="round"/>
+    <!-- 凤身 -->
+    <ellipse cx="46" cy="45" rx="12" ry="8" transform="rotate(25 46 45)"/>
+    <!-- 展开凤羽大翅 -->
+    <path d="M42 40 C38 28 46 16 60 18 C52 26 48 34 46 42 Z"/>
+    <path d="M46 44 C44 32 54 22 68 26 C58 32 54 40 50 46 Z"/>
+    <!-- 卷草华丽长翎尾 -->
+    <path d="M52 50 C62 56 74 54 82 44 C86 38 88 48 82 56 C74 66 60 68 50 72 C38 76 24 82 18 92 C26 84 38 80 48 76" fill="none" stroke-width="3" stroke-linecap="round"/>
+    <path d="M50 54 C60 64 68 76 74 86 C68 84 62 76 56 70" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <!-- 凤尾圆珠眼纹 -->
+    <circle cx="82" cy="46" r="3"/>
+    <circle cx="74" cy="84" r="2.8"/>
+  </g>
+</svg>

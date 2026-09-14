@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="gold-grad-10" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#DFC378"/>
+      <stop offset="50%" stopColor="#C29B38"/>
+      <stop offset="100%" stopColor="#8C6721"/>
+    </linearGradient>
+  </defs>
+  <!-- 折枝寒梅：苍劲古梅枝干、五瓣梅花、含苞梅蕾 -->
+  <g fill="url(#gold-grad-10)" stroke="url(#gold-grad-10)">
+    <!-- 苍劲折枝主干 -->
+    <path d="M14 86 C28 72 38 68 44 56 C50 44 48 34 60 22 C68 14 78 12 86 8" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 分枝 -->
+    <path d="M44 56 C54 62 66 64 74 60" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M48 34 C38 32 30 26 26 18" fill="none" stroke-width="2" stroke-linecap="round"/>
+    <!-- 主梅花 (五瓣) -->
+    <g transform="translate(60,22)">
+      <circle cx="0" cy="0" r="3.5" fill="#FFF" fill-opacity="0.3"/>
+      <circle cx="0" cy="-9" r="6"/>
+      <circle cx="8.5" cy="-2.7" r="6"/>
+      <circle cx="5.3" cy="7.2" r="6"/>
+      <circle cx="-5.3" cy="7.2" r="6"/>
+      <circle cx="-8.5" cy="-2.7" r="6"/>
+    </g>
+    <!-- 副梅花 (中) -->
+    <g transform="translate(42,54) scale(0.75)">
+      <circle cx="0" cy="0" r="3"/>
+      <circle cx="0" cy="-8" r="5.5"/>
+      <circle cx="7.6" cy="-2.4" r="5.5"/>
+      <circle cx="4.7" cy="6.4" r="5.5"/>
+      <circle cx="-4.7" cy="6.4" r="5.5"/>
+      <circle cx="-7.6" cy="-2.4" r="5.5"/>
+    </g>
+    <!-- 花苞梅蕾 -->
+    <circle cx="74" cy="60" r="4.5"/>
+    <circle cx="26" cy="18" r="4"/>
+    <circle cx="86" cy="8" r="3.5"/>
+  </g>
+</svg>

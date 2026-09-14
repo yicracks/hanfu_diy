@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="gold-grad-4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#DFC378"/>
+      <stop offset="50%" stopColor="#C29B38"/>
+      <stop offset="100%" stopColor="#8C6721"/>
+    </linearGradient>
+  </defs>
+  <!-- 盛唐宋制传统八瓣宝相花 -->
+  <g fill="url(#gold-grad-4)" stroke="url(#gold-grad-4)">
+    <!-- 花心莲实与圆珠纹 -->
+    <circle cx="50" cy="50" r="10" stroke-width="2" fill="none"/>
+    <circle cx="50" cy="50" r="4"/>
+    <!-- 8瓣内层如意花瓣 -->
+    <g transform="translate(50,50)">
+      <path d="M0 -11 C5 -18 8 -24 0 -30 C-8 -24 -5 -18 0 -11 Z"/>
+      <path d="M0 -11 C5 -18 8 -24 0 -30 C-8 -24 -5 -18 0 -11 Z" transform="rotate(45)"/>
+      <path d="M0 -11 C5 -18 8 -24 0 -30 C-8 -24 -5 -18 0 -11 Z" transform="rotate(90)"/>
+      <path d="M0 -11 C5 -18 8 -24 0 -30 C-8 -24 -5 -18 0 -11 Z" transform="rotate(135)"/>
+      <path d="M0 -11 C5 -18 8 -24 0 -30 C-8 -24 -5 -18 0 -11 Z" transform="rotate(180)"/>
+      <path d="M0 -11 C5 -18 8 -24 0 -30 C-8 -24 -5 -18 0 -11 Z" transform="rotate(225)"/>
+      <path d="M0 -11 C5 -18 8 -24 0 -30 C-8 -24 -5 -18 0 -11 Z" transform="rotate(270)"/>
+      <path d="M0 -11 C5 -18 8 -24 0 -30 C-8 -24 -5 -18 0 -11 Z" transform="rotate(315)"/>
+      <!-- 外层如意云钩大瓣 -->
+      <path d="M0 -30 C12 -38 15 -48 0 -49 C-15 -48 -12 -38 0 -30 Z" opacity="0.85"/>
+      <path d="M0 -30 C12 -38 15 -48 0 -49 C-15 -48 -12 -38 0 -30 Z" transform="rotate(45)" opacity="0.85"/>
+      <path d="M0 -30 C12 -38 15 -48 0 -49 C-15 -48 -12 -38 0 -30 Z" transform="rotate(90)" opacity="0.85"/>
+      <path d="M0 -30 C12 -38 15 -48 0 -49 C-15 -48 -12 -38 0 -30 Z" transform="rotate(135)" opacity="0.85"/>
+      <path d="M0 -30 C12 -38 15 -48 0 -49 C-15 -48 -12 -38 0 -30 Z" transform="rotate(180)" opacity="0.85"/>
+      <path d="M0 -30 C12 -38 15 -48 0 -49 C-15 -48 -12 -38 0 -30 Z" transform="rotate(225)" opacity="0.85"/>
+      <path d="M0 -30 C12 -38 15 -48 0 -49 C-15 -48 -12 -38 0 -30 Z" transform="rotate(270)" opacity="0.85"/>
+      <path d="M0 -30 C12 -38 15 -48 0 -49 C-15 -48 -12 -38 0 -30 Z" transform="rotate(315)" opacity="0.85"/>
+    </g>
+  </g>
+</svg>

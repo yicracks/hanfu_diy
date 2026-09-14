@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="gold-grad-6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#DFC378"/>
+      <stop offset="50%" stopColor="#C29B38"/>
+      <stop offset="100%" stopColor="#8C6721"/>
+    </linearGradient>
+  </defs>
+  <!-- 缠枝莲纹：生生不息缠枝蔓草与盛开莲花 -->
+  <g fill="url(#gold-grad-6)" stroke="url(#gold-grad-6)">
+    <!-- 莲花主花 -->
+    <path d="M50 32 C56 22 64 22 66 32 C66 40 58 48 50 50 C42 48 34 40 34 32 C36 22 44 22 50 32 Z"/>
+    <path d="M50 34 C53 26 58 26 59 34 C59 40 54 44 50 46 C46 44 41 40 41 34 C42 26 47 26 50 34 Z" fill="#FFF" fill-opacity="0.2"/>
+    <!-- 左右副瓣 -->
+    <path d="M34 36 C26 34 22 40 28 46 C34 50 42 50 48 50 Z" opacity="0.85"/>
+    <path d="M66 36 C74 34 78 40 72 46 C66 50 58 50 52 50 Z" opacity="0.85"/>
+    <!-- 花托 -->
+    <path d="M42 50 Q50 54 58 50 L56 56 Q50 58 44 56 Z"/>
+    <!-- 优美S型蔓草茎蔓 -->
+    <path d="M50 56 C50 68 32 72 26 84 C20 92 30 98 38 92 C46 84 48 76 56 72 C66 68 78 72 84 80 C88 86 84 94 76 94" fill="none" stroke-width="3" stroke-linecap="round"/>
+    <!-- 翻卷卷草叶 -->
+    <path d="M26 84 C18 80 14 72 20 68 C26 66 30 74 28 80 Z" opacity="0.8"/>
+    <path d="M68 70 C76 64 84 62 86 70 C88 78 78 80 72 74 Z" opacity="0.8"/>
+  </g>
+</svg>

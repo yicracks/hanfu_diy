@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="gold-grad-7" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#DFC378"/>
+      <stop offset="50%" stopColor="#C29B38"/>
+      <stop offset="100%" stopColor="#8C6721"/>
+    </linearGradient>
+  </defs>
+  <!-- 富贵牡丹纹：层叠花瓣与牡丹叶 -->
+  <g fill="url(#gold-grad-7)" stroke="url(#gold-grad-7)">
+    <!-- 牡丹花心 -->
+    <circle cx="50" cy="46" r="6"/>
+    <!-- 内层卷褶花瓣 -->
+    <path d="M44 42 C40 34 50 30 54 36 C58 32 66 38 60 44 C66 48 60 56 52 54 C46 58 40 50 44 42 Z" fill-opacity="0.8"/>
+    <!-- 中层舒展花瓣 -->
+    <path d="M36 38 C28 32 34 22 46 24 C56 20 68 24 66 34 C76 36 78 48 70 54 C74 64 64 70 56 66 C46 72 36 64 36 56 C26 50 28 40 36 38 Z" fill="none" stroke-width="2.5"/>
+    <!-- 外层大花瓣 -->
+    <path d="M24 38 C16 48 24 62 34 66 C32 76 46 80 54 74 C62 80 76 74 72 64 C82 58 86 44 78 34" fill="none" stroke-width="2" stroke-linecap="round"/>
+    <!-- 牡丹三叉叶片 -->
+    <path d="M30 70 C20 74 14 84 20 92 C28 88 32 80 34 74 Z" opacity="0.85"/>
+    <path d="M68 68 C78 72 84 82 78 90 C70 86 66 78 64 72 Z" opacity="0.85"/>
+    <path d="M48 72 L48 94" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+</svg>
