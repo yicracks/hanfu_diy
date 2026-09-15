@@ -10,7 +10,7 @@ import { StickerLibrary } from './components/StickerLibrary';
 
 function createDefaultPanels(style: HanfuStyle, count: number): PanelData[] {
   if (style.category === 'robe' || style.id === 'daxiushan') {
-    const robeLabels = ['后身片', '前身片', '广袖主体', '袖底弧片', '通身领缘'];
+    const robeLabels = ['前身', '后身', '左广袖', '右广袖', '直领领缘'];
     return Array.from({ length: 5 }, (_, i) => ({
       id: i,
       color: i === 4 ? '#FAF7F0' : '#891D28',
@@ -123,41 +123,54 @@ export default function App() {
     let posY = 50;
     let stickerWidth = 14;
 
+    let stickerSide: 'front' | 'back' = 'front';
+
     if (currentStyle.id === 'daxiushan' || currentStyle.category === 'robe') {
-      if (targetPanelId === 2 || targetPanelId === 3) {
-        // Broad sleeve
-        posX = 50;
-        posY = targetPanelId === 3 ? 60 : 38;
-        stickerWidth = 20;
-      } else if (targetPanelId === 0) {
+      if (targetPanelId === 1) {
         // Back body
-        posX = 21;
-        posY = 22;
-        stickerWidth = 16;
-      } else if (targetPanelId === 1) {
+        posX = 50;
+        posY = 42;
+        stickerWidth = 22;
+        stickerSide = 'back';
+      } else if (targetPanelId === 0) {
         // Front body
-        posX = 21;
-        posY = 56;
-        stickerWidth = 16;
+        posX = 50;
+        posY = 45;
+        stickerWidth = 20;
+        stickerSide = 'front';
+      } else if (targetPanelId === 2) {
+        // Left broad sleeve
+        posX = 20;
+        posY = 36;
+        stickerWidth = 18;
+        stickerSide = selectedPanelId === 1 ? 'back' : 'front';
+      } else if (targetPanelId === 3) {
+        // Right broad sleeve
+        posX = 80;
+        posY = 36;
+        stickerWidth = 18;
+        stickerSide = selectedPanelId === 1 ? 'back' : 'front';
       } else if (targetPanelId === 4) {
         // Collar band
-        posX = 85;
-        posY = 42;
-        stickerWidth = 8;
+        posX = 50;
+        posY = 45;
+        stickerWidth = 10;
+        stickerSide = 'front';
       } else {
         // Default smart placement for robe
+        stickerSide = selectedPanelId === 1 ? 'back' : 'front';
         if (motif.category === 'auspicious') {
           posX = 50;
-          posY = 34;
+          posY = 40;
           stickerWidth = 22;
-        } else if (motif.category === 'flora') {
-          posX = 21;
-          posY = 56;
-          stickerWidth = 16;
+        } else if (motif.category === 'hem') {
+          posX = 50;
+          posY = 84;
+          stickerWidth = 32;
         } else {
-          posX = 46;
-          posY = 54;
-          stickerWidth = 18;
+          posX = 50;
+          posY = 45;
+          stickerWidth = 20;
         }
       }
     } else {
@@ -189,6 +202,7 @@ export default function App() {
       height: Math.round(stickerWidth / (motif.aspectRatio || 1)),
       rotation: 0,
       color: threadColor || (motif as any).color || '#C29B38',
+      side: stickerSide,
     };
 
     setStickers((prev) => [...prev, newSticker]);

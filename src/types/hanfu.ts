@@ -42,6 +42,7 @@ export interface HanfuSticker {
   rotation: number; // degrees
   color: string;
   flipX?: boolean;
+  side?: 'front' | 'back';
 }
 
 export interface FabricMaterial {

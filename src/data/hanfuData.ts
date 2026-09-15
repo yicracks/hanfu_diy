@@ -33,7 +33,7 @@ export const HANFU_STYLES: HanfuStyle[] = [
     collarWidthCm: 8.5, // 横开领宽 8.5
     collarDepthCm: 2.8, // 后领口深 2.8
     collarBandWidthCm: 8, // 领缘宽 8
-    panelLabels: ['后身片', '前身片', '广袖主体', '袖底弧片', '通身领缘'],
+    panelLabels: ['前身', '后身', '左广袖', '右广袖', '直领领缘'],
   },
 ];
 
