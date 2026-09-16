@@ -2,7 +2,7 @@ import React, { useMemo, useState, useRef } from 'react';
 import { PanelData } from '../types/hanfu';
 import { loadDynamicStickers, DynamicStickerItem, EMBROIDERY_COLORS } from '../utils/stickerLoader';
 import { MotifSvg } from './MotifSvg';
-import { Stamp, Plus, Info, Upload } from 'lucide-react';
+import { Stamp, Plus, Upload } from 'lucide-react';
 
 interface StickerLibraryProps {
   onAddSticker: (sticker: DynamicStickerItem, targetPanelId?: number | null, threadColor?: string) => void;
@@ -107,18 +107,6 @@ export const StickerLibrary: React.FC<StickerLibraryProps> = ({
             );
           })}
         </div>
-      </div>
-
-      {/* 提示栏 */}
-      <div className="bg-stone-50 border border-stone-200/80 rounded-lg p-2 text-[11px] text-stone-600 flex items-center gap-2">
-        <Info className="w-3.5 h-3.5 text-stone-500 shrink-0" />
-        <span>
-          {selectedPanel ? (
-            <>已选: <strong>{selectedPanel.label}</strong>，点击纹样直接添加。</>
-          ) : (
-            <>点击纹样添加至画布，支持拖拽、缩放与旋转。</>
-          )}
-        </span>
       </div>
 
       {/* 纹样图片网格 */}

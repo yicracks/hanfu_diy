@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { PanelData, HanfuSticker } from '../types/hanfu';
+import { PanelData, HanfuSticker, RobeDimensions } from '../types/hanfu';
 import { Printer, Scissors, Ruler, AlertCircle, Sparkles } from 'lucide-react';
 import { MotifSvg } from './MotifSvg';
 
@@ -7,6 +7,7 @@ interface RobeCuttingPatternPrintProps {
   panels: PanelData[];
   stickers: HanfuSticker[];
   robeLengthCm?: number;
+  robeDims?: RobeDimensions;
   onClose?: () => void;
 }
 
@@ -14,24 +15,28 @@ export const RobeCuttingPatternPrint: React.FC<RobeCuttingPatternPrintProps> = (
   panels,
   stickers,
   robeLengthCm = 130,
+  robeDims,
   onClose,
 }) => {
   const printAreaRef = useRef<HTMLDivElement>(null);
 
-  // Exact specs matching the user reference photo
-  const bustCm = 116;
-  const bustQuarterCm = 29;
-  const halfSleeveLengthCm = 105; // 通袖长/2
-  const fullSleeveLengthCm = 210;
-  const sleeveOpeningCm = 110; // 袖口宽
-  const sleeveDepthCm = 38; // 袖肥
-  const neckWidthCm = 8.5; // 横开领宽
-  const backNeckDepthCm = 2.8; // 后领口深
-  const collarBandWidthCm = 8; // 领缘宽
-  const collarBandLengthCm = 268; // 领缘长 (前衣长130*2 + 后领约8)
+  // Dynamic specs matching customized parameters or reference defaults
+  const currentLength = robeDims?.garmentLengthCm || robeLengthCm || 130;
+  const fullSleeveLengthCm = robeDims?.totalSleeveSpanCm || robeDims?.sleeveSpanCm || 210;
+  const halfSleeveLengthCm = Math.round(fullSleeveLengthCm / 2);
+  const sleeveOpeningCm = robeDims?.sleeveOpeningCm || robeDims?.sleeveWidthCm || 110;
+  const collarBandWidthCm = robeDims?.collarBandWidthCm || 8;
+  const bustCm = robeDims?.chestCircumferenceCm || 116;
+  const bustQuarterCm = Math.round(bustCm / 4);
+  const sleeveRootCm = robeDims?.sleeveRootDepthCm ?? 38;
+  const neckWidthCm = robeDims?.neckWidthCm ?? 8.5;
+  const backNeckDepthCm = robeDims?.backNeckDepthCm ?? 2.8;
+  const hemHalfWidthCm = robeDims?.hemWidthCm ?? 72; // 半身下摆宽
+  const hemQuarterCm = Math.round(hemHalfWidthCm / 2); // 1/4 下摆宽 (微展)
+  const collarBandLengthCm = robeDims?.collarBandLengthCm || Math.round(currentLength * 2 + 8); // 领缘长
   const seamAllowanceCm = 1.5;
   const hemAllowanceCm = 3.0;
-  const totalFabricMeters = '4.8';
+  const totalFabricMeters = ((currentLength * 2 + sleeveOpeningCm * 2 + 40) / 100).toFixed(1);
 
   const handlePrint = () => {
     window.print();
@@ -101,6 +106,10 @@ export const RobeCuttingPatternPrint: React.FC<RobeCuttingPatternPrintProps> = (
               <strong className="text-stone-900">{bustCm}cm (1/4为{bustQuarterCm}cm)</strong>
             </div>
             <div>
+              <span className="text-stone-500">下摆: </span>
+              <strong className="text-stone-900">{hemHalfWidthCm * 2}cm (微展比 {Math.round((hemHalfWidthCm / (bustCm / 2)) * 100)}%)</strong>
+            </div>
+            <div>
               <span className="text-stone-500">用料: </span>
               <strong className="text-stone-900">{totalFabricMeters}m (门幅140cm)</strong>
             </div>
@@ -112,7 +121,7 @@ export const RobeCuttingPatternPrint: React.FC<RobeCuttingPatternPrintProps> = (
           <div className="text-xs font-serif font-bold text-stone-700 mb-2 flex items-center justify-between border-b border-stone-200 pb-1">
             <span>排料与尺寸标注</span>
             <span className="text-[10px] font-mono text-stone-500 font-normal">
-              单位: cm · 标示净样 · 缝份增加 {seamAllowanceCm}cm
+              单位: cm · 标示净样 · 缝份增加 {seamAllowanceCm}cm · 下摆比上面稍微宽微展
             </span>
           </div>
 
@@ -135,67 +144,109 @@ export const RobeCuttingPatternPrint: React.FC<RobeCuttingPatternPrintProps> = (
               </marker>
             </defs>
 
-            {/* SECTION 1: Left Mini Finished Garment Drawings (Directly matching photo's top-left) */}
+            {/* SECTION 1: Left Mini Finished Garment Drawings & Authentic Specs Table */}
             <g id="bp-mini-garment-sketches" transform="translate(15, 20)">
               {/* Box border */}
               <rect x="0" y="0" width="180" height="470" fill="#FAFAF9" stroke="#D6D3D1" strokeWidth="1" rx="4" />
-              <text x="90" y="24" textAnchor="middle" fill="#292524" fontSize="12" fontWeight="bold" fontFamily="serif">
-                款式成衣结构示意
+              <text x="90" y="20" textAnchor="middle" fill="#292524" fontSize="11" fontWeight="bold" fontFamily="serif">
+                大袖衫款式与尺寸参数表
               </text>
 
-              {/* Front View Mini Sketch */}
-              <g transform="translate(10, 35)">
-                <text x="80" y="16" textAnchor="middle" fill="#57534E" fontSize="11" fontWeight="bold">
-                  【前襟正视】
-                </text>
-                {/* Front robe outline */}
-                <path
-                  d="M 65 30 L 30 50 C 15 75 15 110 30 130 C 48 145 70 140 85 90 L 85 160 L 45 160 L 55 90 L 65 30 Z"
-                  fill="#F5F5F4"
-                  stroke="#44403C"
-                  strokeWidth="1.2"
-                />
-                <path
-                  d="M 95 30 L 130 50 C 145 75 145 110 130 130 C 112 145 90 140 75 90 L 75 160 L 115 160 L 105 90 L 95 30 Z"
-                  fill="#F5F5F4"
-                  stroke="#44403C"
-                  strokeWidth="1.2"
-                />
-                {/* Straight front lapels (直领对襟) */}
-                <line x1="80" y1="30" x2="80" y2="160" stroke="#78350F" strokeWidth="1.8" />
-                <rect x="76" y="30" width="8" height="130" fill="none" stroke="#B45309" strokeWidth="1" />
-                <text x="80" y="180" textAnchor="middle" fill="#78716C" fontSize="9">
-                  直领对襟 · 领缘通身
-                </text>
+              {/* Front & Back Mini Sketches side-by-side */}
+              <g transform="translate(8, 28)">
+                {/* Mini Front */}
+                <g transform="translate(0, 0)">
+                  <text x="40" y="10" textAnchor="middle" fill="#57534E" fontSize="9" fontWeight="bold">
+                    【前襟正视】
+                  </text>
+                  <path
+                    d="M 32 18 L 14 30 C 6 45 6 70 14 85 C 23 95 34 92 40 60 L 40 105 L 18 105 L 26 60 L 32 18 Z"
+                    fill="#F5F5F4"
+                    stroke="#44403C"
+                    strokeWidth="1"
+                  />
+                  <path
+                    d="M 48 18 L 66 30 C 74 45 74 70 66 85 C 57 95 46 92 40 60 L 40 105 L 62 105 L 54 60 L 48 18 Z"
+                    fill="#F5F5F4"
+                    stroke="#44403C"
+                    strokeWidth="1"
+                  />
+                  <line x1="40" y1="18" x2="40" y2="105" stroke="#B45309" strokeWidth="1.2" />
+                  <text x="40" y="118" textAnchor="middle" fill="#78716C" fontSize="8">
+                    对襟直领·微展
+                  </text>
+                </g>
+
+                {/* Mini Back */}
+                <g transform="translate(84, 0)">
+                  <text x="40" y="10" textAnchor="middle" fill="#57534E" fontSize="9" fontWeight="bold">
+                    【后背正视】
+                  </text>
+                  <path
+                    d="M 32 18 L 14 30 C 6 45 6 70 14 85 C 23 95 34 92 40 60 L 40 105 L 18 105 L 26 60 L 32 18 Z"
+                    fill="#F5F5F4"
+                    stroke="#44403C"
+                    strokeWidth="1"
+                  />
+                  <path
+                    d="M 48 18 L 66 30 C 74 45 74 70 66 85 C 57 95 46 92 40 60 L 40 105 L 62 105 L 54 60 L 48 18 Z"
+                    fill="#F5F5F4"
+                    stroke="#44403C"
+                    strokeWidth="1"
+                  />
+                  <path d="M 34 18 Q 40 22 46 18" fill="none" stroke="#B45309" strokeWidth="1.2" />
+                  <line x1="40" y1="21" x2="40" y2="105" stroke="#44403C" strokeWidth="1" strokeDasharray="2,1" />
+                  <text x="40" y="118" textAnchor="middle" fill="#78716C" fontSize="8">
+                    后中缝·微展摆
+                  </text>
+                </g>
               </g>
 
-              {/* Back View Mini Sketch */}
-              <g transform="translate(10, 240)">
-                <text x="80" y="16" textAnchor="middle" fill="#57534E" fontSize="11" fontWeight="bold">
-                  【后背正视】
+              {/* Authentic Parameters Table from Reference Image (大袖衫尺寸参数表) */}
+              <g transform="translate(8, 158)">
+                <rect x="0" y="0" width="164" height="300" fill="#FFFFFF" stroke="#A8A29E" strokeWidth="1" rx="2" />
+                <rect x="0" y="0" width="164" height="24" fill="#E7E5E4" />
+                <text x="82" y="16" textAnchor="middle" fill="#1C1917" fontSize="10.5" fontWeight="bold" fontFamily="serif">
+                  大袖衫尺寸参数表
                 </text>
-                {/* Back robe outline */}
-                <path
-                  d="M 65 30 L 30 50 C 15 75 15 110 30 130 C 48 145 70 140 85 90 L 85 160 L 45 160 L 55 90 L 65 30 Z"
-                  fill="#F5F5F4"
-                  stroke="#44403C"
-                  strokeWidth="1.2"
-                />
-                <path
-                  d="M 95 30 L 130 50 C 145 75 145 110 130 130 C 112 145 90 140 75 90 L 75 160 L 115 160 L 105 90 L 95 30 Z"
-                  fill="#F5F5F4"
-                  stroke="#44403C"
-                  strokeWidth="1.2"
-                />
-                {/* Back neck collar curve */}
-                <path d="M 68 30 Q 80 36 92 30" fill="none" stroke="#B45309" strokeWidth="1.5" />
-                {/* Center Back Seam (中缝) */}
-                <line x1="80" y1="34" x2="80" y2="160" stroke="#44403C" strokeWidth="1.2" strokeDasharray="3,1" />
-                <text x="80" y="180" textAnchor="middle" fill="#78716C" fontSize="9">
-                  后背正中缝 (中缝通长)
-                </text>
-                <text x="80" y="195" textAnchor="middle" fill="#78716C" fontSize="9">
-                  后领深 2.8厘米 · 横开 8.5厘米
+                
+                {/* Table Header */}
+                <rect x="0" y="24" width="164" height="18" fill="#F5F5F4" />
+                <line x1="0" y1="42" x2="164" y2="42" stroke="#D6D3D1" strokeWidth="1" />
+                <line x1="95" y1="24" x2="95" y2="295" stroke="#E7E5E4" strokeWidth="1" />
+                <text x="48" y="37" textAnchor="middle" fill="#57534E" fontSize="9" fontWeight="bold">部位名称</text>
+                <text x="130" y="37" textAnchor="middle" fill="#57534E" fontSize="9" fontWeight="bold">尺寸 (cm)</text>
+
+                {/* Rows mapping to uploaded reference drawing */}
+                {[
+                  { label: '衣长', val: currentLength },
+                  { label: '胸围', val: `${bustCm} (1/4=${bustQuarterCm})` },
+                  { label: '通袖长', val: `${fullSleeveLengthCm} (1/2=${halfSleeveLengthCm})` },
+                  { label: '袖口宽', val: sleeveOpeningCm },
+                  { label: '袖肥', val: sleeveRootCm },
+                  { label: '横开领口宽', val: neckWidthCm },
+                  { label: '后领口深', val: backNeckDepthCm },
+                  { label: '领缘宽', val: collarBandWidthCm },
+                  { label: '下摆宽/4', val: `${hemQuarterCm} (微展)` },
+                ].map((row, idx) => {
+                  const y = 43 + idx * 25;
+                  return (
+                    <g key={row.label}>
+                      {idx % 2 === 1 && <rect x="0" y={y} width="164" height="25" fill="#FAFAF9" />}
+                      <line x1="0" y1={y + 25} x2="164" y2={y + 25} stroke="#F5F5F4" strokeWidth="1" />
+                      <text x="10" y={y + 16} fill="#44403C" fontSize="9.5">
+                        {row.label}
+                      </text>
+                      <text x="160" y={y + 16} textAnchor="end" fill="#0C0A09" fontSize="9.5" fontWeight="bold" fontFamily="monospace">
+                        {row.val}
+                      </text>
+                    </g>
+                  );
+                })}
+
+                {/* Table Footer note */}
+                <text x="82" y="285" textAnchor="middle" fill="#B45309" fontSize="8" fontWeight="medium">
+                  ※ 样式设定：下摆比上面稍微宽
                 </text>
               </g>
             </g>
@@ -213,21 +264,17 @@ export const RobeCuttingPatternPrint: React.FC<RobeCuttingPatternPrintProps> = (
                 肩线 (连肩连裁折叠线)
               </text>
 
-              {/* Main Cutting Piece: Body + Sleeve continuous */}
-              {/* Back body: X: 80 to 200, Y: 260 up to 50 */}
-              {/* Front body: X: 80 to 200, Y: 260 down to 470 */}
-              {/* Sleeve: X: 200 to 480, Y: 130 to 390 (袖口 110) */}
-              {/* Underarm arc: from (200, 325) curving to (480, 390) */}
-
-              {/* Pattern fill background */}
+              {/* Main Cutting Piece: Body + Sleeve continuous, with flared hem */}
+              {/* Back body: X: 80 to 200 at armpit, flaring out to 235 at hem */}
               <path
-                d="M 80 248 Q 95 248 112 260 L 200 260 L 200 195 L 225 50 L 80 50 L 80 248 Z"
+                d="M 80 248 Q 95 248 112 260 L 200 260 L 200 195 L 235 50 L 80 50 L 80 248 Z"
                 fill="#FEF3C7"
                 stroke="#44403C"
                 strokeWidth="1.8"
               />
+              {/* Front body: X: 80 to 200 at armpit, flaring out to 235 at hem */}
               <path
-                d="M 112 260 L 80 320 L 80 470 L 225 470 L 200 325 L 200 260 Z"
+                d="M 112 260 L 80 320 L 80 470 L 235 470 L 200 325 L 200 260 Z"
                 fill="#FEF3C7"
                 stroke="#44403C"
                 strokeWidth="1.8"
@@ -253,7 +300,7 @@ export const RobeCuttingPatternPrint: React.FC<RobeCuttingPatternPrintProps> = (
 
               {/* Seam allowance dotted preview line */}
               <path
-                d="M 72 42 L 233 42 L 208 190 L 488 157 L 488 363 C 385 460 283 450 208 333 L 233 478 L 72 478 Z"
+                d="M 72 42 L 243 42 L 208 190 L 488 157 L 488 363 C 385 460 283 450 208 333 L 243 478 L 72 478 Z"
                 fill="none"
                 stroke="#B45309"
                 strokeWidth="1"
@@ -269,46 +316,54 @@ export const RobeCuttingPatternPrint: React.FC<RobeCuttingPatternPrintProps> = (
               <line x1="55" y1="50" x2="55" y2="260" stroke="#292524" strokeWidth="1.2" markerEnd="url(#bp-arrow)" markerStart="url(#bp-arrow)" />
               <line x1="45" y1="50" x2="65" y2="50" stroke="#292524" strokeWidth="1" />
               <text x="50" y="155" textAnchor="end" fill="#1C1917" fontSize="11" fontWeight="bold">
-                后衣长 130
+                后衣长 {currentLength}
               </text>
 
               {/* Front length (前衣长 130) */}
               <line x1="55" y1="260" x2="55" y2="470" stroke="#292524" strokeWidth="1.2" markerEnd="url(#bp-arrow)" markerStart="url(#bp-arrow)" />
               <line x1="45" y1="470" x2="65" y2="470" stroke="#292524" strokeWidth="1" />
               <text x="50" y="370" textAnchor="end" fill="#1C1917" fontSize="11" fontWeight="bold">
-                前衣长 130
+                前衣长 {currentLength}
               </text>
 
               {/* Neck width & depth (横开领 8.5 / 后领深 2.8) */}
-              <text x="82" y="240" fill="#1C1917" fontSize="9">后领深 2.8</text>
-              <text x="115" y="252" fill="#1C1917" fontSize="9">横开 8.5</text>
+              <text x="82" y="240" fill="#1C1917" fontSize="9">后领深 {backNeckDepthCm}</text>
+              <text x="115" y="252" fill="#1C1917" fontSize="9">横开 {neckWidthCm}</text>
 
-              {/* Body width (胸围/4 = 29) */}
+              {/* Body width at chest (胸围/4 = bustQuarterCm) */}
               <line x1="80" y1="325" x2="200" y2="325" stroke="#78716C" strokeWidth="1" strokeDasharray="3,3" />
               <text x="140" y="320" textAnchor="middle" fill="#1C1917" fontSize="10" fontWeight="bold">
-                胸围/4 = 29
+                胸围/4 = {bustQuarterCm}
               </text>
 
-              {/* Sleeve root (袖肥 38) */}
+              {/* Hem width (下摆微展宽) */}
+              <line x1="80" y1="480" x2="235" y2="480" stroke="#B45309" strokeWidth="1.2" markerEnd="url(#bp-arrow)" markerStart="url(#bp-arrow)" />
+              <line x1="80" y1="474" x2="80" y2="486" stroke="#B45309" strokeWidth="1" />
+              <line x1="235" y1="474" x2="235" y2="486" stroke="#B45309" strokeWidth="1" />
+              <text x="157" y="496" textAnchor="middle" fill="#B45309" fontSize="10" fontWeight="bold">
+                下摆宽/4 = {hemQuarterCm} (微展 +{hemQuarterCm - bustQuarterCm}cm)
+              </text>
+
+              {/* Sleeve root (袖肥) */}
               <line x1="200" y1="260" x2="200" y2="325" stroke="#292524" strokeWidth="1.2" markerEnd="url(#bp-arrow)" markerStart="url(#bp-arrow)" />
               <text x="195" y="295" textAnchor="end" fill="#1C1917" fontSize="10" fontWeight="bold">
-                袖肥 38
+                袖肥 {sleeveRootCm}
               </text>
 
-              {/* Half sleeve length (通袖长/2 = 105) */}
+              {/* Half sleeve length (通袖长/2) */}
               <line x1="80" y1="30" x2="480" y2="30" stroke="#292524" strokeWidth="1.2" markerEnd="url(#bp-arrow)" markerStart="url(#bp-arrow)" />
               <line x1="80" y1="20" x2="80" y2="40" stroke="#292524" strokeWidth="1" />
               <line x1="480" y1="20" x2="480" y2="40" stroke="#292524" strokeWidth="1" />
               <text x="280" y="24" textAnchor="middle" fill="#1C1917" fontSize="12" fontWeight="bold">
-                通袖长/2 = 105
+                通袖长/2 = {halfSleeveLengthCm}
               </text>
 
-              {/* Sleeve opening (袖口宽 110) */}
+              {/* Sleeve opening (袖口宽) */}
               <line x1="495" y1="165" x2="495" y2="355" stroke="#292524" strokeWidth="1.2" markerEnd="url(#bp-arrow)" markerStart="url(#bp-arrow)" />
               <line x1="485" y1="165" x2="505" y2="165" stroke="#292524" strokeWidth="1" />
               <line x1="485" y1="355" x2="505" y2="355" stroke="#292524" strokeWidth="1" />
               <text x="510" y="265" fill="#1C1917" fontSize="11" fontWeight="bold">
-                袖口宽 110
+                袖口宽 {sleeveOpeningCm}
               </text>
             </g>
 
@@ -326,13 +381,13 @@ export const RobeCuttingPatternPrint: React.FC<RobeCuttingPatternPrintProps> = (
 
                 {/* Collar width callout */}
                 <text x="20" y="-10" textAnchor="middle" fill="#1C1917" fontSize="10" fontWeight="bold">
-                  宽 8
+                  宽 {collarBandWidthCm}
                 </text>
                 <line x1="0" y1="-5" x2="40" y2="-5" stroke="#292524" strokeWidth="1" />
 
                 {/* Collar length callout */}
                 <text x="50" y="180" fill="#1C1917" fontSize="10" fontWeight="bold">
-                  长 268cm
+                  长 {collarBandLengthCm}cm
                 </text>
               </g>
 
@@ -364,19 +419,19 @@ export const RobeCuttingPatternPrint: React.FC<RobeCuttingPatternPrintProps> = (
                 <tr>
                   <td className="py-1 font-medium">身片</td>
                   <td className="text-center">2 片</td>
-                  <td className="text-right">260 × 29~34</td>
+                  <td className="text-right">{currentLength * 2} × {bustQuarterCm}~{hemQuarterCm}</td>
                   <td className="text-right text-stone-500">+1.5，底+3</td>
                 </tr>
                 <tr>
                   <td className="py-1 font-medium">袖片</td>
                   <td className="text-center">2 片</td>
-                  <td className="text-right">76 × 110</td>
+                  <td className="text-right">{halfSleeveLengthCm - bustQuarterCm} × {sleeveOpeningCm}</td>
                   <td className="text-right text-stone-500">+1.5，口+3</td>
                 </tr>
                 <tr>
                   <td className="py-1 font-medium">领缘</td>
                   <td className="text-center">1 条</td>
-                  <td className="text-right">268 × 8</td>
+                  <td className="text-right">{collarBandLengthCm} × {collarBandWidthCm}</td>
                   <td className="text-right text-stone-500">+1.0</td>
                 </tr>
                 <tr>

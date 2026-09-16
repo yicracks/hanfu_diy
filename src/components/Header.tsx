@@ -1,7 +1,7 @@
 import React from 'react';
 import { HanfuStyle } from '../types/hanfu';
 import { HANFU_STYLES } from '../data/hanfuData';
-import { Scissors, Sparkles, Layout, Shirt, Printer, RotateCcw } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 
 interface HeaderProps {
   currentStyle: HanfuStyle;
@@ -35,9 +35,6 @@ export const Header: React.FC<HeaderProps> = ({
               <h1 className="text-sm sm:text-base font-serif font-bold text-stone-900 leading-tight">
                 汉服定制设计
               </h1>
-              <p className="text-[10px] text-stone-400">
-                设计 · 纹样 · 裁剪图
-              </p>
             </div>
           </div>
 
@@ -95,52 +92,8 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </div>
 
-        {/* Right: View mode toggle & Reset */}
+        {/* Right: Reset */}
         <div className="flex items-center gap-2">
-          {/* 成衣预览与打印裁剪图功能代码完整保留，根据要求不显示在页面功能 */}
-          {false && (
-            <div className="inline-flex bg-stone-100 p-1 rounded-lg border border-stone-200">
-              <button
-                type="button"
-                onClick={() => setActiveView('flat')}
-                className={`flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-md transition-all cursor-pointer ${
-                  activeView === 'flat'
-                    ? 'bg-white text-stone-900 shadow-xs'
-                    : 'text-stone-600 hover:text-stone-900'
-                }`}
-              >
-                <Layout className="w-3.5 h-3.5" />
-                <span>展开设计</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveView('drape')}
-                className={`flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-md transition-all cursor-pointer ${
-                  activeView === 'drape'
-                    ? 'bg-white text-stone-900 shadow-xs'
-                    : 'text-stone-600 hover:text-stone-900'
-                }`}
-              >
-                <Shirt className="w-3.5 h-3.5" />
-                <span>成衣预览</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveView('print')}
-                className={`flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-md transition-all cursor-pointer ${
-                  activeView === 'print'
-                    ? 'bg-stone-900 text-white shadow-xs'
-                    : 'text-stone-600 hover:text-stone-900'
-                }`}
-              >
-                <Printer className="w-3.5 h-3.5 text-amber-400" />
-                <span>裁剪图</span>
-              </button>
-            </div>
-          )}
-
           <button
             type="button"
             onClick={onReset}

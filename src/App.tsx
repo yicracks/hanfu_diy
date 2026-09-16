@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { HANFU_STYLES, TRADITIONAL_COLORS, FABRIC_MATERIALS, TRADITIONAL_MOTIFS } from './data/hanfuData';
-import { HanfuStyle, PanelData, HanfuSticker, MotifDef } from './types/hanfu';
+import { HanfuStyle, PanelData, HanfuSticker, MotifDef, SkirtDimensions, RobeDimensions } from './types/hanfu';
 import { Header } from './components/Header';
 import { FlatCanvas } from './components/FlatCanvas';
 import { GarmentPreview } from './components/GarmentPreview';
 import { CuttingPatternPrint } from './components/CuttingPatternPrint';
 import { MaterialColorPicker } from './components/MaterialColorPicker';
 import { StickerLibrary } from './components/StickerLibrary';
+import { SizeParameterPanel } from './components/SizeParameterPanel';
 
 function createDefaultPanels(style: HanfuStyle, count: number): PanelData[] {
   if (style.category === 'robe' || style.id === 'daxiushan') {
@@ -16,11 +17,13 @@ function createDefaultPanels(style: HanfuStyle, count: number): PanelData[] {
       color: i === 4 ? '#FAF7F0' : '#891D28',
       materialId: i === 4 ? 'woven-gold' : 'cloud-gauze',
       label: robeLabels[i] || `裁片${i + 1}`,
+      lengthCm: i === 4 ? 268 : 130,
+      widthCm: i === 4 ? 8 : (i < 2 ? 58 : 110),
     }));
   }
 
   return Array.from({ length: count }, (_, i) => {
-    let label = `裁片${i + 1}`;
+    let label = `第${i + 1}片`;
     if (count === 8) {
       const labels = [
         '左对褶1',
@@ -32,7 +35,7 @@ function createDefaultPanels(style: HanfuStyle, count: number): PanelData[] {
         '后裙门',
         '后裙门内',
       ];
-      label = labels[i] || `裁片${i + 1}`;
+      label = labels[i] || `第${i + 1}片`;
     } else {
       label = i % 2 === 0 ? '侧对褶' : '裙门';
     }
@@ -41,6 +44,8 @@ function createDefaultPanels(style: HanfuStyle, count: number): PanelData[] {
       color: '#1C3144',
       materialId: 'woven-gold',
       label,
+      widthCm: 28,
+      lengthCm: 95,
     };
   });
 }
@@ -54,6 +59,33 @@ export default function App() {
   // 初始无默认纹样，清爽初始画布供用户自由设计
   const [stickers, setStickers] = useState<HanfuSticker[]>([]);
 
+  // Dimension customization state for Skirt (Mamianqun)
+  const [skirtDims, setSkirtDims] = useState<SkirtDimensions>({
+    panelCount: 8,
+    skirtLengthCm: 95,
+    waistbandHeightCm: 7,
+    waistbandLengthCm: 110,
+    defaultPanelWidthCm: 28,
+  });
+
+  // Dimension customization state for Robe (Daxiushan) - 完全参考图纸标准尺寸
+  const [robeDims, setRobeDims] = useState<RobeDimensions>({
+    garmentLengthCm: 130, // 衣长 130 (后衣长 / 前衣长)
+    chestCircumferenceCm: 116, // 胸围 116 (胸围/4 = 29)
+    sleeveSpanCm: 210, // 通袖长 210 (通袖长/2 = 105)
+    totalSleeveSpanCm: 210,
+    sleeveWidthCm: 110, // 袖口宽 110
+    sleeveOpeningCm: 110,
+    sleeveRootDepthCm: 38, // 袖肥 38
+    neckWidthCm: 8.5, // 横开领口宽 8.5
+    backNeckDepthCm: 2.8, // 后领口深 2.8
+    collarBandWidthCm: 8, // 领缘宽 8
+    collarBandLengthCm: 268, // 领缘长
+    bodyHalfWidthCm: 58, // 胸宽半身 58 (胸围116 / 2)
+    hemWidthCm: 72, // 下摆半宽 72 (整摆144，下摆/4=36，比胸围/4 29微展7cm)
+    cuffWidthCm: 110,
+  });
+
   // Active selections
   const [selectedPanelId, setSelectedPanelId] = useState<number | null>(null);
   const [selectedStickerId, setSelectedStickerId] = useState<string | null>(null);
@@ -64,7 +96,7 @@ export default function App() {
   const [activeMaterialId, setActiveMaterialId] = useState<string>('woven-gold');
 
   // Specs
-  const skirtLengthCm = 95;
+  const skirtLengthCm = skirtDims.skirtLengthCm;
   const waistbandColor = '#FAF7F0'; // 传统白布或素色腰头
 
   // Switch style (extensible for future garment styles)
@@ -87,6 +119,7 @@ export default function App() {
   // Adjust panel count N
   const handleChangePanelCount = (newCount: number) => {
     setPanelCount(newCount);
+    setSkirtDims((prev) => ({ ...prev, panelCount: newCount }));
     setPanels((prev) => {
       const updated: PanelData[] = [];
       for (let i = 0; i < newCount; i++) {
@@ -98,12 +131,33 @@ export default function App() {
             color: activeColor,
             materialId: activeMaterialId,
             label: i % 2 === 0 ? '侧褶片' : '裙门片',
+            widthCm: skirtDims.defaultPanelWidthCm || 28,
+            lengthCm: skirtDims.skirtLengthCm || 95,
           });
         }
       }
       return updated;
     });
     setSelectedPanelId(null);
+  };
+
+  // Handle updates to skirt dimensions
+  const handleChangeSkirtDims = (updates: Partial<SkirtDimensions>) => {
+    setSkirtDims((prev) => {
+      const next = { ...prev, ...updates };
+      // Keep panel lengths in sync with skirt length
+      if (updates.skirtLengthCm) {
+        setPanels((pList) =>
+          pList.map((p) => ({ ...p, lengthCm: updates.skirtLengthCm }))
+        );
+      }
+      return next;
+    });
+  };
+
+  // Handle updates to robe dimensions
+  const handleChangeRobeDims = (updates: Partial<RobeDimensions>) => {
+    setRobeDims((prev) => ({ ...prev, ...updates }));
   };
 
   // Panel updates
@@ -116,6 +170,7 @@ export default function App() {
   const handleApplyToAll = (updates: Partial<PanelData>) => {
     setPanels((prev) => prev.map((p) => ({ ...p, ...updates })));
   };
+
 
   // Sticker updates
   const handleAddSticker = (motif: any, targetPanelId?: number | null, threadColor?: string) => {
@@ -273,6 +328,21 @@ export default function App() {
               onDeleteSticker={handleDeleteSticker}
               skirtLengthCm={skirtLengthCm}
               waistbandColor={waistbandColor}
+              skirtDims={skirtDims}
+              robeDims={robeDims}
+            />
+
+            {/* Custom Dimension and Pattern Sizing Panel (可填长度参数面板) */}
+            <SizeParameterPanel
+              currentStyle={currentStyle}
+              panels={panels}
+              onUpdatePanel={handleApplyToPanel}
+              onUpdateAllPanels={handleApplyToAll}
+              skirtDims={skirtDims}
+              onChangeSkirtDims={handleChangeSkirtDims}
+              onChangePanelCount={handleChangePanelCount}
+              robeDims={robeDims}
+              onChangeRobeDims={handleChangeRobeDims}
             />
 
             {/* Bottom Tool Panels: Color/Fabric Material + Sticker Library */}
@@ -312,6 +382,8 @@ export default function App() {
             stickers={stickers}
             waistbandColor={waistbandColor}
             skirtLengthCm={skirtLengthCm}
+            skirtDims={skirtDims}
+            robeDims={robeDims}
           />
         )}
 
@@ -323,6 +395,8 @@ export default function App() {
             stickers={stickers}
             skirtLengthCm={skirtLengthCm}
             waistbandColor={waistbandColor}
+            skirtDims={skirtDims}
+            robeDims={robeDims}
             onClose={() => setActiveView('flat')}
           />
         )}

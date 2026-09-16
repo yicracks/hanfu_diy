@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PanelData, HanfuSticker, HanfuStyle } from '../types/hanfu';
+import { PanelData, HanfuSticker, HanfuStyle, SkirtDimensions, RobeDimensions } from '../types/hanfu';
 import { getFabricStyle } from '../utils/fabricTextures';
 import { MotifSvg } from './MotifSvg';
 import { Eye, Shirt, Sparkles } from 'lucide-react';
@@ -11,6 +11,8 @@ interface GarmentPreviewProps {
   stickers: HanfuSticker[];
   waistbandColor: string;
   skirtLengthCm: number;
+  skirtDims?: SkirtDimensions;
+  robeDims?: RobeDimensions;
 }
 
 export const GarmentPreview: React.FC<GarmentPreviewProps> = ({
@@ -19,6 +21,8 @@ export const GarmentPreview: React.FC<GarmentPreviewProps> = ({
   stickers,
   waistbandColor,
   skirtLengthCm,
+  skirtDims,
+  robeDims,
 }) => {
   // If current style is robe (唐宋大袖衫), render the dedicated RobePreview
   if (currentStyle?.category === 'robe' || currentStyle?.id === 'daxiushan') {
@@ -26,7 +30,8 @@ export const GarmentPreview: React.FC<GarmentPreviewProps> = ({
       <RobePreview
         panels={panels}
         stickers={stickers}
-        robeLengthCm={currentStyle.defaultLengthCm || 130}
+        robeLengthCm={robeDims?.garmentLengthCm || currentStyle.defaultLengthCm || 130}
+        robeDims={robeDims}
       />
     );
   }

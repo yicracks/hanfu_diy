@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
-import { PanelData, HanfuSticker } from '../types/hanfu';
+import { PanelData, HanfuSticker, RobeDimensions } from '../types/hanfu';
 import { getFabricStyle } from '../utils/fabricTextures';
 import { MotifSvg } from './MotifSvg';
-import { Shirt, Sparkles } from 'lucide-react';
+import { Shirt, Sparkles, Ruler } from 'lucide-react';
 
 interface RobePreviewProps {
   panels: PanelData[];
   stickers: HanfuSticker[];
   robeLengthCm?: number;
+  robeDims?: RobeDimensions;
 }
 
 export const RobePreview: React.FC<RobePreviewProps> = ({
   panels,
   stickers,
   robeLengthCm = 130,
+  robeDims,
 }) => {
   const [viewAngle, setViewAngle] = useState<'front' | 'back'>('front');
+
+  const length = robeDims?.garmentLengthCm ?? robeLengthCm;
+  const bust = robeDims?.chestCircumferenceCm ?? 116;
+  const hemHalf = robeDims?.hemWidthCm ?? 72;
+  const sleeveSpan = robeDims?.sleeveSpanCm ?? 210;
+  const sleeveWidth = robeDims?.sleeveWidthCm ?? 110;
+
+  // Dynamic hem flare delta calculation (default 124px half-span at 600px viewbox)
+  // When hemHalf is 72 (ratio 72/58 = 1.24), standard flare
+  const flareRatio = Math.max(1.1, Math.min(1.5, hemHalf / (bust / 2)));
+  const hemHalfPx = Math.round(95 * flareRatio); // approx 118~140px from center 300
+  const hemLeftX = 300 - hemHalfPx;
+  const hemRightX = 300 + hemHalfPx;
 
   // Panels mapping:
   // 0: 后身片 (Back body)
@@ -45,6 +60,10 @@ export const RobePreview: React.FC<RobePreviewProps> = ({
           <span className="text-xs font-semibold text-stone-800 flex items-center gap-1.5">
             <Shirt className="w-3.5 h-3.5 text-amber-700" />
             成衣效果
+          </span>
+          <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-amber-900 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+            <Ruler className="w-3 h-3 text-amber-700" />
+            <span>衣长{length} · 胸围{bust} · 通袖{sleeveSpan} · 下摆微展{hemHalf * 2}cm</span>
           </span>
         </div>
 
@@ -201,30 +220,30 @@ export const RobePreview: React.FC<RobePreviewProps> = ({
               />
             </g>
 
-            {/* 3. MAIN BODY (Flowing Robe Silhouette) */}
+            {/* 3. MAIN BODY (Flowing Robe Silhouette - 下摆比上面稍微宽一点，呈微展A字摆) */}
             <g id="preview-main-body">
-              {/* Body polygon flaring slightly to hem */}
+              {/* Body polygon flaring gracefully to hem */}
               <path
-                d="M 255 90 Q 235 150 220 280 L 190 470 Q 300 485 410 470 L 380 280 Q 365 150 345 90 Z"
+                d={`M 255 90 Q 235 150 220 280 L ${hemLeftX} 470 Q 300 486 ${hemRightX} 470 L 380 280 Q 365 150 345 90 Z`}
                 fill={currentBodyPanel.color}
                 stroke="#3E2723"
                 strokeWidth="1.5"
               />
               {/* Body drape lighting and folds */}
               <path
-                d="M 255 90 Q 235 150 220 280 L 190 470 Q 300 485 410 470 L 380 280 Q 365 150 345 90 Z"
+                d={`M 255 90 Q 235 150 220 280 L ${hemLeftX} 470 Q 300 486 ${hemRightX} 470 L 380 280 Q 365 150 345 90 Z`}
                 fill="url(#body-center-crease)"
               />
               <path
-                d="M 190 450 Q 300 465 410 450 L 410 470 Q 300 485 190 470 Z"
+                d={`M ${hemLeftX} 450 Q 300 466 ${hemRightX} 450 L ${hemRightX} 470 Q 300 486 ${hemLeftX} 470 Z`}
                 fill="url(#hem-shadow)"
               />
 
               {/* Vertical drape folds */}
-              <path d="M 245 220 Q 235 340 225 465" fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" />
-              <path d="M 247 220 Q 237 340 227 465" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-              <path d="M 355 220 Q 365 340 375 465" fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" />
-              <path d="M 353 220 Q 363 340 373 465" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+              <path d="M 245 220 Q 230 340 215 466" fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" />
+              <path d="M 247 220 Q 232 340 217 466" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+              <path d="M 355 220 Q 370 340 385 466" fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" />
+              <path d="M 353 220 Q 368 340 383 466" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
             </g>
 
             {/* 4. DETAILS FOR FRONT vs BACK */}

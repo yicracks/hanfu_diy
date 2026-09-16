@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { PanelData, HanfuSticker, HanfuStyle } from '../types/hanfu';
+import { PanelData, HanfuSticker, HanfuStyle, SkirtDimensions, RobeDimensions } from '../types/hanfu';
 import { Printer, Download, Scissors, Ruler, Compass, AlertCircle } from 'lucide-react';
 import { MotifSvg } from './MotifSvg';
 import { RobeCuttingPatternPrint } from './RobeCuttingPatternPrint';
@@ -10,6 +10,8 @@ interface CuttingPatternPrintProps {
   stickers: HanfuSticker[];
   skirtLengthCm: number;
   waistbandColor: string;
+  skirtDims?: SkirtDimensions;
+  robeDims?: RobeDimensions;
   onClose?: () => void;
 }
 
@@ -19,6 +21,8 @@ export const CuttingPatternPrint: React.FC<CuttingPatternPrintProps> = ({
   stickers,
   skirtLengthCm,
   waistbandColor,
+  skirtDims,
+  robeDims,
   onClose,
 }) => {
   // If current style is Daxiushan (robe category), render the authentic Daxiushan blueprint
@@ -27,7 +31,8 @@ export const CuttingPatternPrint: React.FC<CuttingPatternPrintProps> = ({
       <RobeCuttingPatternPrint
         panels={panels}
         stickers={stickers}
-        robeLengthCm={currentStyle.defaultLengthCm || 130}
+        robeLengthCm={robeDims?.garmentLengthCm || currentStyle.defaultLengthCm || 130}
+        robeDims={robeDims}
         onClose={onClose}
       />
     );
@@ -35,11 +40,13 @@ export const CuttingPatternPrint: React.FC<CuttingPatternPrintProps> = ({
 
   const printAreaRef = useRef<HTMLDivElement>(null);
   const n = panels.length;
-  const panelWidthCm = Math.round(280 / n);
+  const actualSkirtLength = skirtDims?.skirtLengthCm || skirtLengthCm || 95;
+  const defaultWidth = skirtDims?.defaultPanelWidthCm || Math.round(280 / n);
+  const panelWidthCm = panels[0]?.widthCm || defaultWidth;
   const hemAllowanceCm = 4;
   const seamAllowanceCm = 1.5;
   const waistAllowanceCm = 1.0;
-  const cutLengthCm = skirtLengthCm + hemAllowanceCm + waistAllowanceCm;
+  const cutLengthCm = actualSkirtLength + hemAllowanceCm + waistAllowanceCm;
   const cutWidthCm = panelWidthCm + seamAllowanceCm * 2;
   const totalFabricMeters = ((cutLengthCm * Math.ceil(n / 3) + 40) / 100).toFixed(1);
 

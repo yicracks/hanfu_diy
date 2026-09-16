@@ -1,8 +1,7 @@
 import React from 'react';
-import { TRADITIONAL_COLORS, FABRIC_MATERIALS } from '../data/hanfuData';
-import { PanelData, FabricMaterial } from '../types/hanfu';
-import { Palette, Layers, Sparkles, Check, Paintbrush } from 'lucide-react';
-import { getFabricStyle } from '../utils/fabricTextures';
+import { TRADITIONAL_COLORS } from '../data/hanfuData';
+import { PanelData } from '../types/hanfu';
+import { Palette, Check, Paintbrush } from 'lucide-react';
 
 interface MaterialColorPickerProps {
   selectedPanelId: number | null;
@@ -125,55 +124,6 @@ export const MaterialColorPicker: React.FC<MaterialColorPickerProps> = ({
           })}
         </div>
       </div>
-
-      {/* 2. Fabric Material Textures - 代码保留但不显示在页面上 */}
-      {false && (
-        <div>
-          <div className="text-xs font-medium text-stone-700 mb-2 flex items-center gap-1">
-            <Layers className="w-3.5 h-3.5 text-stone-500" />
-            <span>面料材质</span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {FABRIC_MATERIALS.map((mat) => {
-              const isSelected = activeMaterialId === mat.id;
-              const previewStyle = getFabricStyle(mat.id, activeColor);
-
-              return (
-                <button
-                  key={mat.id}
-                  type="button"
-                  onClick={() => handleMaterialClick(mat.id)}
-                  className={`flex items-center gap-2 p-2 rounded-lg border text-left transition-all cursor-pointer ${
-                    isSelected
-                      ? 'border-amber-600 bg-amber-50/40 ring-1 ring-amber-500 shadow-xs'
-                      : 'border-stone-200 hover:border-stone-300 bg-white'
-                  }`}
-                >
-                  {/* Material Texture Swatch */}
-                  <div
-                    className="w-7 h-7 rounded-md border border-stone-300 shadow-xs shrink-0 relative overflow-hidden"
-                    style={previewStyle}
-                  >
-                    {isSelected && (
-                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                        <Check className="w-3.5 h-3.5 text-white" />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="min-w-0">
-                    <div className="text-xs font-medium text-stone-900 truncate font-serif">
-                      {mat.name}
-                    </div>
-                    <div className="text-[10px] text-stone-500 truncate">{mat.description}</div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
